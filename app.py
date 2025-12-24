@@ -15,7 +15,7 @@ st.write("Logistic Regression based Fraud Prediction")
 # -------------------- LOAD DATA --------------------
 @st.cache_data
 def load_data():
-    df = pd.read_excel("fraud_insurance_claims.xls")
+    df = pd.read_csv("fraud_insurance_claims.csv")
     return df
 
 
@@ -84,3 +84,4 @@ if st.button("Predict"):
         st.error(f"🚨 Fraud Detected (Probability: {prob:.2f})")
     else:
         st.success(f"✅ Legitimate Claim (Fraud Probability: {prob:.2f})")
+
