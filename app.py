@@ -1,10 +1,14 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import sklearn
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, roc_auc_score
+
+# Debug: check scikit-learn version
+st.write("Scikit-learn version:", sklearn.__version__)
 
 # -------------------- PAGE SETUP --------------------
 st.set_page_config(page_title="Insurance Fraud Detection", layout="wide")
@@ -17,7 +21,6 @@ st.write("Logistic Regression based Fraud Prediction")
 def load_data():
     df = pd.read_csv("fraud_insurance_claims.csv")
     return df
-
 
 df = load_data()
 
@@ -84,4 +87,3 @@ if st.button("Predict"):
         st.error(f"🚨 Fraud Detected (Probability: {prob:.2f})")
     else:
         st.success(f"✅ Legitimate Claim (Fraud Probability: {prob:.2f})")
-
