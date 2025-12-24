@@ -1,3 +1,4 @@
+# -------------------- IMPORTS --------------------
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -6,24 +7,25 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, roc_auc_score
+import os
 
-# Debug: check scikit-learn version
+# -------------------- DEBUG --------------------
 st.write("Scikit-learn version:", sklearn.__version__)
 
 # -------------------- PAGE SETUP --------------------
 st.set_page_config(page_title="Insurance Fraud Detection", layout="wide")
-
 st.title("🚨 Insurance Fraud Detection App")
 st.write("Logistic Regression based Fraud Prediction")
 
 # -------------------- LOAD DATA --------------------
 @st.cache_data
 def load_data():
-    df = pd.read_csv("fraud_insurance_claims.csv")
+    # Dataset in same folder as app.py
+    DATA_PATH = os.path.join(os.path.dirname(__file__), "fraud_insurance_claims.csv")
+    df = pd.read_csv(DATA_PATH)
     return df
 
 df = load_data()
-
 st.subheader("Dataset Preview")
 st.dataframe(df.head())
 
@@ -36,11 +38,8 @@ df['fraud_reported'] = le.fit_transform(
 df.fillna(method='ffill', inplace=True)
 
 drop_cols = [
-    'policy_number',
-    'policy_bind_date',
-    'incident_date',
-    'insured_zip',
-    'incident_location'
+    'policy_number', 'policy_bind_date', 'incident_date',
+    'insured_zip', 'incident_location'
 ]
 
 df.drop(columns=[c for c in drop_cols if c in df.columns], inplace=True)
